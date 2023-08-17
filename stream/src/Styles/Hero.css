@@ -1,0 +1,29 @@
+.hero-section {
+    position:relative;
+    overflow: hidden;
+    background-color: antiquewhite;
+    margin-top: 3%;
+    
+  }
+  .carousel-container {
+    display: flex;
+    transition: transform 8s ease-in-out;
+  }
+  .show-info {
+    display: flex;
+  }
+  .show-info > div {
+    margin-right: 10px;
+  }
+  .arrow-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  .backward {
+    left: 10px;
+  }
+  .forward {
+    right: 10px;
+  }

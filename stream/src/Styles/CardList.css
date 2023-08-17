@@ -1,0 +1,39 @@
+.card--images {
+    padding: 5%;
+    padding-left: 8%;
+    width: 80%;
+    margin: 0 auto;
+  }
+  
+  .sort-buttons {
+    display: flex;
+    justify-content: space-evenly;
+    /* gap: 0.5rem; */
+  } 
+   .cards {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+    font-size: 15px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    padding: 5px;
+    word-wrap: inherit;
+    background-color: #fff;
+    max-height: 550px;
+    object-fit: scale-down;
+    width: 250px;
+   }
+  
+   .grid-container {
+   /* display: grid;
+    grid-template-columns: repeat(auto-fit minmax(250px, 1fr));
+    gap: 30px; */
+    display:grid;
+   grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    background-color: #c3bef0;
+    overflow-x: scroll;
+   
+    padding: 5%
+   }
+  

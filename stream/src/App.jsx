@@ -1,35 +1,58 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
-function App() {
-  const [count, setCount] = useState(0)
-
+import './Styles/App.css';
+import CardList from './Services/CardList';
+import Footer from './Services/Footer';
+import Supa from './config/SupabaseClient';
+import { Supabase } from './config/SupabaseClient';
+import { useState, useEffect } from 'react';
+import Season from './Services/Seasons';
+export default function App() {
+  // const [signUpState, setSignUpState] = useState('SignPhase')
+  const [isSignedIn, setIsSignedIn] = useState(false)
+  const [phase, setPhase] = useState('signUpPhase')
+  const [pageState, setPageState] = useState('signUpPhase')
+  useEffect(() => {
+    const authListener = Supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_IN" && session) {
+        console.log("User signed in successfully:", session.user.email);
+        setPhase('previewPhase')
+        setIsSignedIn(true)
+      }
+    });
+    return () => {
+      authListener.unsubscribe;
+    };
+  }, [])
+  async function HandlePreviewClick(event) {
+    if (phase === 'previewPhase') {
+      const buttonId = event.currentTarget.id
+      console.log(buttonId)
+      // const showTitle = event.currentTarget.title
+      if (buttonId) {
+        try {
+          const response = await fetch(`https://podcast-api.netlify.app/id/${buttonId}`);
+          const data = await response.json();
+          setPageState(data.seasons)
+          setPhase('seasonPhase')
+        } catch (error) {
+          console.error('Error fetching Preview data:', error.message);
+        }
+      }
+    }
+  }
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    { phase ==='seasonPhase' && <Season pageState={pageState}/>}
+    {phase === "previewPhase" && isSignedIn ? (
+        <>
+          <div className="app">
+            <CardList  HandlePreviewClick={HandlePreviewClick}/>
+            <Footer />
+          </div>
+        </>
+      ) : (
+        <Supa />
+      )}
     </>
-  )
-}
-
-export default App
+  );
+  
+      }
