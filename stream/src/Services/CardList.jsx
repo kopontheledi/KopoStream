@@ -25,7 +25,6 @@ const CardList = (props) =>{
   
 const [isLoading, setIsLoading] = useState(true);
   const [podcastData, setPodcastData] = useState([]);
-  const [expandedPosterId, setExpandedPosterId] = useState(null);
   const [sortOption, setSortOption] = useState("");
   const [filterText, setFilterText] = useState("");
   const [filteredPodcasts, setFilteredPodcasts] = useState([]);
